@@ -27,4 +27,46 @@ app.get('/',function(req,res){
 4) After wards?
 So after we know that we can render the html file there - we include jquery and socket.io js files
 under scripts of the file
-add a jquery function that takes in the messages and emit them when messages are submmitted
+add a jquery function that takes in the messages and emit them when messages are submmitted--for this
+we need to define a function with sockets.on( send message) so that it identifies the connected
+socket from the server(server.js) back to the client (which in this case-index.html)
+so the server will have a function like this 
+
+
+```
+io.sockets.on('connection',function(socket){
+    console.log('Socket connected..');
+    //Send Message
+    socket.on('send message',function(data){
+        io.sockets.emit('new message',{msg:data});
+        
+    });
+```
+
+And the index.html file (will have some jquery as follows)
+
+```
+  $(function(){
+        var socket= io.connect();
+        var $messageForm= $('#messageForm');
+        var $message=$('#message');
+        var $chat=$('#chatWindow');
+
+        $messageForm.submit(function(e){
+            e.preventDefault();//to prevent default ways of form submission
+            socket.emit('send message',$message.val());
+            $message.val('');
+        });//close of the submit function
+
+ //send the message to the server and the server gets it and send new data back
+            socket.on('new message',function(data){
+                $chat.append(data.msg+'<br>');
+
+            });//close of the socketon function
+```
+
+After above functions are set the application should have basic chat functionality
+
+
+5) How would you implement User functionality?
+
