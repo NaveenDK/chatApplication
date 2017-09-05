@@ -1,0 +1,30 @@
+1) How would you get this project started?
+Design the front end divs in one index.html file as this is a very simple app
+ and then get command line on the project folder
+--and run npm init to create project files -(we can also do it manually)
+2) what dependencies will you add at the start for the package.json generated above
+socket.io and express-(do npm install to install exress and socket .io)
+
+3) where would you create the entry point AND how will you get it to serve what you
+want(which is the index.html)
+Create server. js (as the entrypoint ) and include express and initialize stuff you want as 
+below
+
+
+
+var express= require('express'),
+  app= express();
+  server=require('http').createServer(app),
+  io=require('socket.io').listen(server);
+
+server.listen(process.env.PORT||3000);
+console.log('server running..');
+//following get function will serve the file we want which is index.html
+app.get('/',function(req,res){
+    res.sendFile(__dirname+'/index.html');
+});
+
+4) After wards?
+So after we know that we can render the html file there - we include jquery and socket.io js files
+under scripts of the file
+add a jquery function that takes in the messages and emit them when messages are submmitted
